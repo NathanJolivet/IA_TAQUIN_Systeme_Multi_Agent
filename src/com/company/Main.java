@@ -7,7 +7,7 @@ public class Main {
             done    => donner la priorite lors du choix de la destination a une case qui est vide si elle existe (dans choixDestination)
    TODO             => donner la prio lors du choix a une case qui n'est pas dans un coin (fonction isDansCoin() dans Case)
    TODO             => placer en priorite les cases dans les bords
-   TODO             => Compteur du nombre de demande consecutive sur la meme case, au bout de temps de fois, on ne peut plus demander cette case, puis compteur repasse a 0
+            done    => Compteur du nombre de demande consecutive sur la meme case, au bout de temps de fois, on ne peut plus demander cette case, puis compteur repasse a 0
 
 
    done - Disparition parfois lors d'une demande de deplacement: prend la place de l'autre donc le dernier mouvement supprime le premier qui est allé a sa place (etrange) => problème dans run: on remove donc problème d'indice

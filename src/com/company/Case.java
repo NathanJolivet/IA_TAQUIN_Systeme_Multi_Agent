@@ -18,7 +18,7 @@ public class Case {
         }
         return false;
     }
-
+/*
     public boolean isDansCoin(){
         if(position.getX() == 0 && (position.getY() == 0 || position.getY() == grille.getTaille() - 1)
                 || position.getX() == grille.getTaille() - 1 && (position.getY() == 0 || position.getY() == grille.getTaille() - 1)){
@@ -26,7 +26,7 @@ public class Case {
         }
         return false;
     }
-
+*/
     public double distanceTo(Case caze){
         return Math.sqrt(Math.pow(position.getX() - caze.getPosition().getX(), 2) + Math.pow(position.getY() - caze.getPosition().getY(), 2));
     }
