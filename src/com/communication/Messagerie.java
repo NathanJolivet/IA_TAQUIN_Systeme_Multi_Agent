@@ -16,6 +16,14 @@ public class Messagerie {
         destinataire.getMessagerie().getMessages().add(message);
         destinataire.setMessageRecu(true);
         destinataire.setInTransaction(true);
+        if(destinataire.getIndex() == emetteur.getDestinataireDernierMessage().getIndex()) {
+            emetteur.setCompteurDemandeConsecutive(emetteur.getCompteurDemandeConsecutive() + 1);
+        }
+        else{
+            emetteur.setCompteurDemandeConsecutive(0);
+            emetteur.setDestinataireDernierMessage(destinataire);
+        }
+        System.out.println("COMPTEUUUUUUUUUR: " + emetteur.getCompteurDemandeConsecutive());
     }
 
 

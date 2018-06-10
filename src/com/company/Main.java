@@ -10,13 +10,13 @@ public class Main {
    TODO             => Compteur du nombre de demande consecutive sur la meme case, au bout de temps de fois, on ne peut plus demander cette case, puis compteur repasse a 0
 
 
-    - Disparition parfois lors d'une demande de deplacement: prend la place de l'autre donc le dernier mouvement supprime le premier qui est allé a sa place (etrange) => problème dans run: on remove donc problème d'indice
+   done - Disparition parfois lors d'une demande de deplacement: prend la place de l'autre donc le dernier mouvement supprime le premier qui est allé a sa place (etrange) => problème dans run: on remove donc problème d'indice
 
      */
     public static void main(String[] args) throws InterruptedException {
 
         Grille grille = new Grille(5);
-        grille.initGrille(8);
+        grille.initGrille(24);
 
         System.out.println("GrilleActuelle\n" + grille.toString());
         System.out.println("grilleFinale\n" + grille.getGrilleFinale().toString());

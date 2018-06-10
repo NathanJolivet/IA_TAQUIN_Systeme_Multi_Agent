@@ -18,6 +18,8 @@ public class Agent{
     private Messagerie messagerie = new Messagerie();
     private boolean messageRecu = false; // Quand l'agent a recu un message pour entrer dans la methode "action" meme si il est a sa place finale
     private boolean inTransaction = false; //Quand l'agent a deja envoye une demande a un autre agent de se deplacer car il ne pouvait pas avancer
+    private Agent destinataireDernierMessage = this;
+    private int compteurDemandeConsecutive =  0;
 
 
     public Agent(int index, Grille grilleActuelle){
@@ -39,24 +41,33 @@ public class Agent{
         // Pour donner la priorite aux cases vides si 2 cases ont la meme distance de la position finale
         boolean prioCaseVide = false;
 
+        if(compteurDemandeConsecutive > 3){
+            for(int i = 0; i < casesAdjacentes.size(); i++){
+                if(casesAdjacentes.get(i).getX() == destinataireDernierMessage.getPositionActuelle().getX()
+                        && casesAdjacentes.get(i).getY() == destinataireDernierMessage.getPositionActuelle().getY()){
+                    casesAdjacentes.remove(i);
+                    break;
+                }
+            }
+        }
+
         //On parcourt toutes les cases adjacentes
         for(int i = 1; i < casesAdjacentes.size(); i++){
 
-            //Si la distance est plus petite que celle actuelle et que la case est vide on recup la case et on met la prio a "true"
-            if(distanceMin > grilleActuelle.getGrille().get(casesAdjacentes.get(i).getX()).get(casesAdjacentes.get(i).getY())
+            //Si la distance est plus petite ou egale a celle actuelle et que la case est vide
+            if(distanceMin >= grilleActuelle.getGrille().get(casesAdjacentes.get(i).getX()).get(casesAdjacentes.get(i).getY())
                     .distanceTo(grilleActuelle.getGrille().get(positionFinale.getX()).get(positionFinale.getY()))
                     && grilleActuelle.getGrille().get(casesAdjacentes.get(i).getX()).get(casesAdjacentes.get(i).getY()).isVide()){
 
                 index = i;
                 distanceMin = grilleActuelle.getGrille().get(casesAdjacentes.get(i).getX()).get(casesAdjacentes.get(i).getY())
                         .distanceTo(grilleActuelle.getGrille().get(positionFinale.getX()).get(positionFinale.getY()));
-                prioCaseVide = true;
             }
 
-            //Si distance plus petite et que case non vide, et si la prio n'est pas active
+            //Si distance strictement plus petite
             else{
                 if(distanceMin > grilleActuelle.getGrille().get(casesAdjacentes.get(i).getX()).get(casesAdjacentes.get(i).getY())
-                        .distanceTo(grilleActuelle.getGrille().get(positionFinale.getX()).get(positionFinale.getY())) && !prioCaseVide){
+                        .distanceTo(grilleActuelle.getGrille().get(positionFinale.getX()).get(positionFinale.getY()))){
 
                     index = i;
                     distanceMin = grilleActuelle.getGrille().get(casesAdjacentes.get(i).getX()).get(casesAdjacentes.get(i).getY())
@@ -256,5 +267,21 @@ public class Agent{
 
     public void setInTransaction(boolean inTransaction) {
         this.inTransaction = inTransaction;
+    }
+
+    public int getCompteurDemandeConsecutive() {
+        return compteurDemandeConsecutive;
+    }
+
+    public void setCompteurDemandeConsecutive(int compteurDemandeConsecutive) {
+        this.compteurDemandeConsecutive = compteurDemandeConsecutive;
+    }
+
+    public Agent getDestinataireDernierMessage() {
+        return destinataireDernierMessage;
+    }
+
+    public void setDestinataireDernierMessage(Agent destinataireDernierMessage) {
+        this.destinataireDernierMessage = destinataireDernierMessage;
     }
 }
