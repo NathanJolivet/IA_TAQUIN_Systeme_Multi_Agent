@@ -16,7 +16,7 @@ public class Agent{
     private Grille grilleActuelle;
     private Grille grilleFinale;
     private Messagerie messagerie = new Messagerie();
-    private boolean messageRecu = false; // Quand l'agent est deja en communication
+    private boolean messageRecu = false; // Quand l'agent a recu un message pour entrer dans la methode "action" meme si il est a sa place finale
     private boolean inTransaction = false; //Quand l'agent a deja envoye une demande a un autre agent de se deplacer car il ne pouvait pas avancer
 
 
