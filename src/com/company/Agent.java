@@ -20,6 +20,7 @@ public class Agent{
     private boolean inTransaction = false; //Quand l'agent a deja envoye une demande a un autre agent de se deplacer car il ne pouvait pas avancer
     private Agent destinataireDernierMessage = this;
     private int compteurDemandeConsecutive =  0;
+    private boolean tour = true;
 
 
     public Agent(int index, Grille grilleActuelle){
@@ -41,7 +42,7 @@ public class Agent{
         // Pour donner la priorite aux cases vides si 2 cases ont la meme distance de la position finale
         boolean prioCaseVide = false;
 
-        if(compteurDemandeConsecutive > 3){
+        if(compteurDemandeConsecutive > 2){
             for(int i = 0; i < casesAdjacentes.size(); i++){
                 if(casesAdjacentes.get(i).getX() == destinataireDernierMessage.getPositionActuelle().getX()
                         && casesAdjacentes.get(i).getY() == destinataireDernierMessage.getPositionActuelle().getY()){
@@ -107,6 +108,9 @@ public class Agent{
             //Cas ou la case est libre
             if (caseSuivante.isVide() && !caseSuivante.isReservee()) {
                 this.move(caseSuivante);
+                if(tour){
+                    compteurDemandeConsecutive = 0;
+                }
             }
 
             //Cas ou la case est occupee
@@ -169,6 +173,7 @@ public class Agent{
         if (messagerie.getMessages().size() != 0) {
             switch (messagerie.getMessages().get(0)) {
                 case MOVE:
+                    tour = false;
                     ArrayList<Position> casesAdjacentes = grilleActuelle.positionsCasesAdjacentes(grilleActuelle.getGrille().get(positionActuelle.getX()).get(positionActuelle.getY()));
                     ArrayList<Position> casesAdjDispo;
 
@@ -200,6 +205,7 @@ public class Agent{
             }
             messageRecu = false;
             inTransaction = false;
+            tour = true;
         }
 
 

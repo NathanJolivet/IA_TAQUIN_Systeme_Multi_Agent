@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
         Grille grille = new Grille(5);
-        grille.initGrille(24);
+        grille.initGrille(20);
 
         System.out.println("GrilleActuelle\n" + grille.toString());
         System.out.println("grilleFinale\n" + grille.getGrilleFinale().toString());
