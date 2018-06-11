@@ -22,6 +22,5 @@ public class Main {
 
         long fin = System.currentTimeMillis();
         System.out.println("Le résultat à été obtenu en: " + (fin - debut) + " ms");
-        System.out.println("cool");
     }
 }
