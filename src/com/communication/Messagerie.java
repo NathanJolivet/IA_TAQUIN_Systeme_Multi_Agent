@@ -9,9 +9,10 @@ public class Messagerie {
     private ArrayList<Message> messages = new ArrayList<Message>();
 
     public void sendMessage(Agent emetteur, Agent destinataire, Message message){
-        System.out.println("emetteur: " + emetteur.getPositionActuelle().getX() + ";" + emetteur.getPositionActuelle().getY());
-        System.out.println("destinataire: " + destinataire.getPositionActuelle().getX() + ";" + destinataire.getPositionActuelle().getY());
-        System.out.println("message: " + message.toString());
+        System.out.println("message envoyé:");
+        System.out.println("\temetteur: agent n°" + emetteur.getIndex() + " - position: [" + (emetteur.getPositionActuelle().getX()+1) + "; " + (emetteur.getPositionActuelle().getY()+1) + "]");
+        System.out.println("\tdestinataire: agent n°"+ destinataire.getIndex() + " - position: ["  + (destinataire.getPositionActuelle().getX()+1) + "; " + (destinataire.getPositionActuelle().getY()+1) + "]");
+        System.out.println("\tContenu: " + message.toString() + "\n");
         message.setEmetteur(emetteur);
         destinataire.getMessagerie().getMessages().add(message);
         destinataire.setMessageRecu(true);
@@ -23,18 +24,12 @@ public class Messagerie {
             emetteur.setCompteurDemandeConsecutive(0);
             emetteur.setDestinataireDernierMessage(destinataire);
         }
-        System.out.println("COMPTEUUUUUUUUUR: " + emetteur.getCompteurDemandeConsecutive());
     }
 
 
     /////////////////////////////////////////// GETTER AND SETTER ///////////////////////////////////////////
 
-
     public ArrayList<Message> getMessages() {
         return messages;
-    }
-
-    public void setMessages(ArrayList<Message> messages) {
-        this.messages = messages;
     }
 }

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.communication.Message.MOVE;
-import static com.communication.Message.MOVE_IMPOSSIBLE;
 
 public class Agent{
     private Position positionActuelle;
@@ -17,10 +16,10 @@ public class Agent{
     private Grille grilleFinale;
     private Messagerie messagerie = new Messagerie();
     private boolean messageRecu = false; // Quand l'agent a recu un message pour entrer dans la methode "action" meme si il est a sa place finale
-    private boolean inTransaction = false; //Quand l'agent a deja envoye une demande a un autre agent de se deplacer car il ne pouvait pas avancer
-    private Agent destinataireDernierMessage = this;
-    private int compteurDemandeConsecutive =  0;
-    private boolean tour = true;
+    private boolean inTransaction = false; //Quand l'agent a deja envoye une demande => Il ne faut pas qu'il recooive une demande de deplacement a son tour
+    private Agent destinataireDernierMessage = this; // Pour connaitre le destinataire du dernier message envoye
+    private int compteurDemandeConsecutive =  0; // Pour connaitre le nombre de demande consecutives fait au meme agent sur la meme case
+    private boolean tour = true; // Pour que chaque agent sache si c'est leur tour ou non
 
 
     public Agent(int index, Grille grilleActuelle){
@@ -38,9 +37,6 @@ public class Agent{
         //On cherche la case la plus proche de la position finale
         double distanceMin = grilleActuelle.getGrille().get(casesAdjacentes.get(0).getX()).get(casesAdjacentes.get(0).getY())
                 .distanceTo(grilleActuelle.getGrille().get(positionFinale.getX()).get(positionFinale.getY()));
-
-        // Pour donner la priorite aux cases vides si 2 cases ont la meme distance de la position finale
-        boolean prioCaseVide = false;
 
         if(compteurDemandeConsecutive > 2){
             for(int i = 0; i < casesAdjacentes.size(); i++){
@@ -117,7 +113,7 @@ public class Agent{
             else {
                 if (!caseSuivante.isVide()) {
                     messagerie.sendMessage(this, caseSuivante.getAgent(), MOVE);
-                    caseSuivante.getAgent().run();
+                    caseSuivante.getAgent().actionReceptionMessage();
                     if(caseSuivante.isVide()){
                         this.move(caseSuivante);
                     }
@@ -137,7 +133,6 @@ public class Agent{
         for(int i = 0; i < positions.size(); i++){
             if (positions.get(i).getX() == message.getEmetteur().getPositionActuelle().getX()
                     && positions.get(i).getY() == message.getEmetteur().getPositionActuelle().getY()) {
-                System.out.println("emetteurSupprime: " + positions.get(i).getX() + ";" + positions.get(i).getY());
                 positions.remove(i);
                 break;
             }
@@ -152,7 +147,6 @@ public class Agent{
                 resultat.add(positions.get(i));
             }
         }
-        System.out.println("listeCasesLibres: " + resultat);
         return resultat;
     }
 
@@ -168,7 +162,7 @@ public class Agent{
     }
 
     //Ce que doit faire l'agent a la reception d'un message
-    public void run() {
+    public void actionReceptionMessage() {
 
         if (messagerie.getMessages().size() != 0) {
             switch (messagerie.getMessages().get(0)) {
@@ -185,7 +179,6 @@ public class Agent{
                     if(casesAdjDispo.size() > 0){
                         int rdm = random.nextInt(casesAdjDispo.size());
                         this.action(grilleActuelle.getGrille().get(casesAdjDispo.get(rdm).getX()).get(casesAdjDispo.get(rdm).getY()));
-                        System.out.println("CaseChoisie: " + grilleActuelle.getGrille().get(casesAdjDispo.get(rdm).getX()).get(casesAdjDispo.get(rdm).getY()).getPosition());
                     }
                     else{
                         ArrayList<Position> casesAdjDispoMessage = this.casesPreteARecevoirMessage(casesAdjacentes);
@@ -235,16 +228,8 @@ public class Agent{
         return index;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     public Grille getGrilleActuelle() {
         return grilleActuelle;
-    }
-
-    public void setGrilleActuelle(Grille grilleActuelle) {
-        this.grilleActuelle = grilleActuelle;
     }
 
     public Grille getGrilleFinale() {
@@ -257,10 +242,6 @@ public class Agent{
 
     public Messagerie getMessagerie() {
         return messagerie;
-    }
-
-    public void setMessagerie(Messagerie messagerie) {
-        this.messagerie = messagerie;
     }
 
     public void setMessageRecu(boolean messageRecu) {

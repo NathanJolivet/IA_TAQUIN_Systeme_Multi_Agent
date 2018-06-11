@@ -1,7 +1,5 @@
 package com.company;
 
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -43,6 +41,8 @@ public class Grille {
     public void initGrille(int nbAgents){
         this.placerAgents(nbAgents);
         this.grilleFinale();
+        System.out.println("Grille Initiale:\n" + this.toString());
+        System.out.println("Grille Finale:\n" + grilleFinale.toString());
     }
 
 
@@ -57,7 +57,6 @@ public class Grille {
                 Agent agent = new Agent(i+1, this);
                 agent.setPositionActuelle(grille.get(ligneRdm).get(colonneRdm).getPosition());
                 agents.add(agent);
-                //agent.run();
 
                 grille.get(ligneRdm).get(colonneRdm).setAgent(agent);
 
@@ -122,28 +121,8 @@ public class Grille {
         return grille;
     }
 
-    public void setGrille(ArrayList<ArrayList<Case>> grille) {
-        this.grille = grille;
-    }
-
-    public Grille getGrilleFinale() {
-        return grilleFinale;
-    }
-
-    public void setGrilleFinale(Grille grilleFinale) {
-        this.grilleFinale = grilleFinale;
-    }
-
     public ArrayList<Agent> getAgents() {
         return agents;
-    }
-
-    public void setAgents(ArrayList<Agent> agents) {
-        this.agents = agents;
-    }
-
-    public int getTaille() {
-        return taille;
     }
 
     /////////////////////////////////////////// AFFICHAGE ///////////////////////////////////////////
