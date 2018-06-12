@@ -1,13 +1,28 @@
 package com.company;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
         long debut = System.currentTimeMillis();
 
-        Grille grille = new Grille(3);
-        grille.initGrille(4);
+        Scanner sc = new Scanner(System.in);
+        int taille;
+        do {
+            System.out.println("Quelle est la taille du puzzle souhaitée ?");
+            taille = sc.nextInt();
+        }while(taille <= 1);
+
+        int nbAgents;
+        do {
+            System.out.println("Vous voulez avoir combien de pièce dans votre puzzle ?");
+            nbAgents = sc.nextInt();
+        }while(nbAgents <= 0 || nbAgents > (taille*taille)-1);
+
+        Grille grille = new Grille(taille);
+        grille.initGrille(nbAgents);
 
         while(!grille.testFin()) {
             for (int i = 0; i < grille.getAgents().size(); i++) {
