@@ -6,8 +6,6 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        long debut = System.currentTimeMillis();
-
         Scanner sc = new Scanner(System.in);
         int taille;
         do {
@@ -20,6 +18,8 @@ public class Main {
             System.out.println("Vous voulez avoir combien de pièce dans votre puzzle ?");
             nbAgents = sc.nextInt();
         }while(nbAgents <= 0 || nbAgents > (taille*taille)-1);
+
+        long debut = System.currentTimeMillis();
 
         Grille grille = new Grille(taille);
         grille.initGrille(nbAgents);
