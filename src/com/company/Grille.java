@@ -41,28 +41,41 @@ public class Grille {
     public void initGrille(int nbAgents){
         this.placerAgents(nbAgents);
         this.grilleFinale();
-        System.out.println("Grille Initiale:\n" + this.toString());
-        System.out.println("Grille Finale:\n" + grilleFinale.toString());
+        if(nbAgents < taille*taille) {
+            System.out.println("Grille Initiale:\n" + this.toString());
+            System.out.println("Grille Finale:\n" + grilleFinale.toString());
+        }
     }
 
 
     public void placerAgents(int nbAgents){
-        Random rdm = new Random();
-        int i = 0;
-        while(i < nbAgents){
-            int ligneRdm = rdm.nextInt(taille);
-            int colonneRdm = rdm.nextInt(taille);
-            if(grille.get(ligneRdm).get(colonneRdm).isVide()){
+        if(nbAgents == taille*taille){
+            System.out.println("Probleme impossible a resoudre, toutes les cases sont remplies donc pas de mouvements possibles");
+        }
+        else{
+            if(nbAgents > (taille*taille) - 1){
+                System.out.println("il y a plus d'agents que de case disponible");
+            }
+            else {
+                Random rdm = new Random();
+                int i = 0;
+                while(i < nbAgents){
+                    int ligneRdm = rdm.nextInt(taille);
+                    int colonneRdm = rdm.nextInt(taille);
+                    if(grille.get(ligneRdm).get(colonneRdm).isVide()){
 
-                Agent agent = new Agent(i+1, this);
-                agent.setPositionActuelle(grille.get(ligneRdm).get(colonneRdm).getPosition());
-                agents.add(agent);
+                        Agent agent = new Agent(i+1, this);
+                        agent.setPositionActuelle(grille.get(ligneRdm).get(colonneRdm).getPosition());
+                        agents.add(agent);
 
-                grille.get(ligneRdm).get(colonneRdm).setAgent(agent);
+                        grille.get(ligneRdm).get(colonneRdm).setAgent(agent);
 
-                i++;
+                        i++;
+                    }
+                }
             }
         }
+
     }
 
 
